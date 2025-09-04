@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coding Test In Progress</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" data-name="vs/editor/editor.main" href="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.26.1/min/vs/editor/editor.main.css">
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-header">
+            <h1>Java DSA Coding Challenge</h1>
+            <div class="timer-container">
+                <span id="timer">02:00:00</span>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <!-- Left Side: Question Selector + Statement -->
+            <div class="problems-panel">
+              <h2>Problems</h2>
+          
+              <!-- Question buttons -->
+              <div class="question-buttons">
+                <button class="q-btn" data-index="0">Q1</button>
+                <button class="q-btn" data-index="1">Q2</button>
+                <button class="q-btn" data-index="2">Q3</button>
+                <button class="q-btn" data-index="3">Q4</button>
+                <button class="q-btn" data-index="4">Q5</button>
+              </div>
+          
+              <!-- Problem details -->
+              <div class="problem-details">
+                <h3 id="question-title">Select a question</h3>
+                <p id="question-statement"></p>
+                <div id="question-examples"></div>
+              </div>
+          
+              <button id="submit-test-btn" class="final-submit-btn">Submit Final Test</button>
+            </div>
+          
+            <!-- Right Side: Editor + Feedback -->
+            <div class="editor-panel">
+              <div id="editor-container"></div>
+              <button id="run-code-btn">Submit Code</button>
+              <div id="feedback-container" class="hidden">
+                <h4>Evaluation Feedback:</h4>
+                <p id="feedback-text"></p>
+              </div>
+            </div>
+          </div>
+          
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.26.1/min/vs/loader.js"></script>
+    <script src="client.js"></script>
+</body>
+</html>

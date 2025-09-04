@@ -1,0 +1,13 @@
+# Node.js
+node_modules/
+npm-debug.log
+
+# Environment
+.env
+
+# Submissions file (student data should stay private)
+submissions.json
+
+# System files
+.DS_Store
+Thumbs.db

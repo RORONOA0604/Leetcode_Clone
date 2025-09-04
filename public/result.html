@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Test Results</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>✅ Test Completed</h1>
+    <p id="result-text"></p>
+    <a href="index.html"><button>Logout</button></a>
+  </div>
+
+  <script>
+    const score = sessionStorage.getItem("finalScore");
+    const urlParams = new URLSearchParams(window.location.search);
+    const auto = urlParams.get("auto");
+
+    if (score !== null) {
+      document.getElementById("result-text").textContent = 
+        `You scored ${score}/100 ${auto ? "(Auto-submitted due to cheating attempts)" : ""}`;
+    } else {
+      document.getElementById("result-text").textContent = "No score available.";
+    }
+
+    // Clear session storage after showing results
+    sessionStorage.clear();
+  </script>
+</body>
+</html>

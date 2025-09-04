@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java DSA Coding Test</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container" id="main-container">
+        <div id="details-form">
+            <div class="form-header">
+                <h1>Java DSA Assessment</h1>
+                <p>Please enter your details correctly as it recorded for placemnts.</p>
+            </div>
+            <form id="student-form">
+                <input type="text" id="name" placeholder="Full Name" required>
+                <input type="email" id="email" placeholder="Email ID" required>
+                <input type="tel" id="mobile" placeholder="Mobile Number" required>
+                <input type="text" id="usnno" placeholder="USN" required>
+
+                <button type="submit">View Rules</button>
+            </form>
+        </div>
+
+        <div id="rules-page" class="hidden">
+            <div class="form-header">
+                <h2>📜 Test Rules & Instructions</h2>
+            </div>
+            <div class="rules-content">
+                <ul>
+                    <li>The duration of this test is <strong>2 hours</strong>.</li>
+                    <li>The test consists of 5 coding problems.</li>
+                    <li>Do not switch tabs or applications. You are allowed <strong>2 warnings</strong>. On the third attempt, your test will be auto-submitted.</li>
+                    <li>Ensure you have a stable internet connection.</li>
+                    <li>Click "Start Test" when you are ready to begin. The timer will start immediately.</li>
+                </ul>
+                <button id="start-test-btn">Start Test</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.getElementById('student-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const student = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                mobile: document.getElementById('mobile').value
+            };
+            // Store details in session storage to use on the test page
+            sessionStorage.setItem('studentDetails', JSON.stringify(student));
+            
+            document.getElementById('details-form').classList.add('hidden');
+            document.getElementById('rules-page').classList.remove('hidden');
+        });
+
+        document.getElementById('start-test-btn').addEventListener('click', function() {
+            window.location.href = 'test.html';
+        });
+    </script>
+</body>
+</html>
