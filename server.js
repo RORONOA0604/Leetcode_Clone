@@ -1,24 +1,33 @@
 // server.js
 const express = require('express');
 const bodyParser = require('body-parser');
-const fs = require('fs');
-const path = require('path');
 require('dotenv').config();
 const { GoogleGenerativeAI } = require('@google/generative-ai');
+const { createClient } = require('@supabase/supabase-js'); // ✨ Import Supabase client
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'public')));
+// Assuming you have a 'public' folder for your frontend files
+app.use(express.static('public'));
 
+// --- INITIALIZATION ---
+
+// Google AI Gemini (Unchanged)
+// Note: "gemini-2.0-flash" is not a standard model name. You may want to use "gemini-1.5-flash".
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
-const submissionsFilePath = path.join(__dirname, 'submissions.json');
+// ✨ Supabase Client Initialization
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_KEY;
+const supabase = createClient(supabaseUrl, supabaseKey);
 
-// Route 1: Evaluate single question
+
+// --- ROUTES ---
+
+// Route 1: Evaluate single question (Unchanged)
 app.post('/evaluate', async (req, res) => {
     const { code, question } = req.body;
 
@@ -39,8 +48,6 @@ OR
     try {
         const result = await model.generateContent(prompt);
         let responseText = result.response.text();
-
-        // Clean output
         responseText = responseText.replace(/```json|```/g, '').trim();
 
         let feedbackJson;
@@ -51,9 +58,7 @@ OR
             return res.status(500).json({ status: "Error", feedback: "Invalid evaluation format." });
         }
 
-        // Attach marks (1 or 0)
         feedbackJson.marks = feedbackJson.status === "Correct" ? 20 : 0;
-
         res.json(feedbackJson);
     } catch (error) {
         console.error("Error evaluating code:", error);
@@ -61,33 +66,30 @@ OR
     }
 });
 
-// Route 2: Final submission (async write)
-app.post('/submit-test', (req, res) => {
-    const { name, email, mobile, marks } = req.body;
-    const submission = { name, email, mobile, marks };
+// ✨ Route 2: Final submission (Refactored for Supabase)
+app.post('/submit-test', async (req, res) => {
+    // We now expect 'usn' instead of 'mobile' as requested
+    const { name, email, usn, marks } = req.body;
 
-    let submissions = [];
-    if (fs.existsSync(submissionsFilePath)) {
-        try {
-            submissions = JSON.parse(fs.readFileSync(submissionsFilePath));
-        } catch (err) {
-            console.error("Error parsing submissions file:", err);
-            submissions = [];
-        }
+    // Insert the new submission into the 'submissions' table in Supabase
+    const { data, error } = await supabase
+        .from('submissions')
+        .insert([
+            { name, email, usn, marks }
+        ]);
+
+    // Handle any potential errors from Supabase
+    if (error) {
+        console.error("Error writing to Supabase:", error.message);
+        return res.status(500).json({ message: "Error saving submission." });
     }
 
-    submissions.push(submission);
-
-    // Write async (non-blocking)
-    fs.writeFile(submissionsFilePath, JSON.stringify(submissions, null, 2), (err) => {
-        if (err) {
-            console.error("Error writing submissions:", err);
-            return res.status(500).json({ message: "Error saving submission." });
-        }
-        res.json({ message: "Test submitted successfully!" });
-    });
+    // Send a success response
+    res.status(200).json({ message: "Test submitted successfully!" });
 });
 
+
+// --- SERVER START ---
 app.listen(PORT, () => {
     console.log(`🚀 Server running at http://localhost:${PORT}`);
 });

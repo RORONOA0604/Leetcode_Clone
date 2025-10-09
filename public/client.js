@@ -204,7 +204,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // 🚨 Restrict tab switch + minimize
 // 🚨 Restrict tab switch + minimize
 let warningCount = 0;
-const maxWarnings = 2;
+const maxWarnings = 3;
 let lockViolation = false; // prevent double-counting
 
 function handleViolation(reason) {
