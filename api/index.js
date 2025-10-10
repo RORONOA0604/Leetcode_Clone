@@ -90,6 +90,5 @@ app.post('/submit-test', async (req, res) => {
 
 
 // --- SERVER START ---
-app.listen(PORT, () => {
-    console.log(`🚀 Server running at http://localhost:${PORT}`);
-});
+module.exports = app;
+
