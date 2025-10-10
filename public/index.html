@@ -45,7 +45,8 @@
             const student = {
                 name: document.getElementById('name').value,
                 email: document.getElementById('email').value,
-                mobile: document.getElementById('mobile').value
+                mobile: document.getElementById('mobile').value,
+                usn: document.getElementById('usnno').value
             };
             // Store details in session storage to use on the test page
             sessionStorage.setItem('studentDetails', JSON.stringify(student));

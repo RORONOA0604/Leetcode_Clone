@@ -69,13 +69,13 @@ OR
 // ✨ Route 2: Final submission (Refactored for Supabase)
 app.post('/submit-test', async (req, res) => {
     // We now expect 'usn' instead of 'mobile' as requested
-    const { name, email, usn, marks } = req.body;
+    const { name, email, usn, marks ,mobile } = req.body;
 
     // Insert the new submission into the 'submissions' table in Supabase
     const { data, error } = await supabase
         .from('submissions')
         .insert([
-            { name, email, usn, marks }
+            { name, email, usn, marks,mobile }
         ]);
 
     // Handle any potential errors from Supabase
