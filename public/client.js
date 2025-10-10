@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
         feedbackContainer.className = 'feedback-container active';
 
         try {
-            const response = await fetch('https://leetcode-clone-fdmt.onrender.com/evaluate', {
+            const response = await fetch('/evaluate', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ code, question })
@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function submitTest(auto = false) {
         const totalMarks = marks.reduce((a, b) => a + b, 0);
     
-        fetch('https://leetcode-clone-fdmt.onrender.com/submit-test', {
+        fetch('/submit-test', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ ...studentDetails, marks: totalMarks })

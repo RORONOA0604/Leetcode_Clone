@@ -28,7 +28,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 // --- ROUTES ---
 
 // Route 1: Evaluate single question (Unchanged)
-app.post('/evaluate', async (req, res) => {
+app.post('https://leetcode-clone-fdmt.onrender.com/evaluate', async (req, res) => {
     const { code, question } = req.body;
 
     const prompt = `
@@ -67,7 +67,7 @@ OR
 });
 
 // ✨ Route 2: Final submission (Refactored for Supabase)
-app.post('/submit-test', async (req, res) => {
+app.post('https://leetcode-clone-fdmt.onrender.com/submit-test', async (req, res) => {
     // We now expect 'usn' instead of 'mobile' as requested
     const { name, email, usn, marks } = req.body;
 
